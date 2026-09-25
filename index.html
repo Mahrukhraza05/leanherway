@@ -228,6 +228,7 @@
     .btn-send:disabled { opacity: .6; cursor: progress; }
     .btn-send svg { width: 16px; height: 16px; }
     .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .limit-note { margin: 10px 0 0; font-size: 12px; text-align: center; color: var(--faint); }
     .form-status:empty { display: none; }
     .form-status { margin: 14px 0 0; font-size: 14px; text-align: center; color: var(--muted); }
     .form-status.ok { color: var(--teal); }
@@ -382,6 +383,7 @@
             Send message
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
           </button>
+          <p class="limit-note" id="submission-limit" aria-live="polite"></p>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
 
@@ -458,7 +460,37 @@
 
     const form = document.getElementById('contact-form');
     const statusEl = document.getElementById('form-status');
+    const limitEl = document.getElementById('submission-limit');
     const button = form.querySelector('button');
+    const SUBMISSION_LIMIT = 4;
+    const SUBMISSION_COUNT_KEY = 'leanherway-submission-count';
+
+    function getSubmissionCount() {
+      try {
+        const count = Number.parseInt(window.localStorage.getItem(SUBMISSION_COUNT_KEY) || '0', 10);
+        return Number.isFinite(count) && count >= 0 ? Math.min(count, SUBMISSION_LIMIT) : 0;
+      } catch (err) {
+        return 0;
+      }
+    }
+
+    function setSubmissionCount(count) {
+      try {
+        window.localStorage.setItem(SUBMISSION_COUNT_KEY, String(count));
+      } catch (err) {
+        // Submission still works when browser storage is unavailable.
+      }
+    }
+
+    function updateSubmissionLimit() {
+      const remaining = SUBMISSION_LIMIT - getSubmissionCount();
+      limitEl.textContent = remaining
+        ? remaining + ' submission' + (remaining === 1 ? '' : 's') + ' remaining on this device.'
+        : 'This device has reached the four-submission limit.';
+      button.disabled = remaining === 0;
+    }
+
+    updateSubmissionLimit();
 
     function setStatus(text, type) {
       statusEl.textContent = text;
@@ -479,6 +511,11 @@
       const message = (data.message || '').trim();
 
       if (data._honey) return; // spam bot, ignore quietly
+      if (getSubmissionCount() >= SUBMISSION_LIMIT) {
+        setStatus('This device has reached the four-submission limit.', 'err');
+        updateSubmissionLimit();
+        return;
+      }
 
       if (!name || !email || !message) {
         setStatus('Please fill in your name, email and a short note about your venture.', 'err');
@@ -510,6 +547,8 @@
           throw new Error(result.message || 'Request failed');
         }
         form.reset();
+        setSubmissionCount(getSubmissionCount() + 1);
+        updateSubmissionLimit();
         setStatus('Thank you, ' + name.split(' ')[0] + '. Your message has been sent and we will be in touch soon.', 'ok');
       } catch (err) {
         const detail = err instanceof Error ? err.message : '';
@@ -520,7 +559,7 @@
         }
         statusEl.className = 'form-status err';
       } finally {
-        button.disabled = false;
+        updateSubmissionLimit();
       }
     });
   </script>
