@@ -63,11 +63,6 @@
     }
     /* Temporary image is only the right-hand portion of the photo.
        Once the full photo is exported from Figma, remove the "is-temp" class in the HTML. */
-    .hero__media.is-temp {
-      left: auto; width: 62%; object-position: left center;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
-              mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
-    }
     .hero::after {
       content: ""; position: absolute; inset: 0; z-index: -1;
       background:
@@ -122,22 +117,9 @@
     .project__frame {
       position: relative; display: block;
       margin-right: 8px;
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.18);
-      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-      transition: background-color .25s ease;
+      padding: 0;
     }
-    .project:hover .project__frame { background: rgba(255, 255, 255, 0.24); }
-    .project__frame img { height: 43px; width: auto; display: block; }
-    .project__line { position: absolute; width: 2px; background: #008081; }
-    .project__line::after {
-      content: ""; position: absolute; left: 50%; width: 15px; height: 15px;
-      margin-left: -7.5px; border-radius: 50%; background: #008081;
-    }
-    .project__line--l { left: -2px; top: -27px; bottom: 0; }
-    .project__line--l::after { top: 0; }
-    .project__line--r { right: -2px; top: 0; bottom: -25px; }
-    .project__line--r::after { bottom: 0; }
+    .project__frame img { width: min(399px, 42vw); height: auto; display: block; }
     .hero__foot p {
       margin: 0 0 18px;
       font-size: 18px; line-height: 1.4; font-weight: 400;
@@ -281,7 +263,7 @@
 
     /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
-      .hero__media.is-temp { width: 100%; object-position: 70% center; -webkit-mask-image: none; mask-image: none; }
+      .hero__media { object-position: 72% center; }
     }
     @media (max-width: 600px) {
       .br-wide { display: none; }
@@ -299,8 +281,8 @@
       .logo-hbl { height: 76px; }
       .project { align-items: flex-start; margin-bottom: 0; }
       .project__label { margin-bottom: 30px; }
-      .project__frame { margin-left: 8px; margin-right: 0; padding: 7px 14px; }
-      .project__frame img { height: 32px; }
+      .project__frame { margin-left: 0; margin-right: 0; }
+      .project__frame img { width: min(330px, 82vw); }
       .brand img { height: 20px; }
       .brand--sm img { height: 18px; }
       .footer .wrap { justify-content: center; text-align: center; }
@@ -314,9 +296,7 @@
 <body>
 
   <header class="hero">
-    <!-- TEMPORARY: replace with the full hero photo exported from Figma (save as assets/hero.jpg),
-         then change src to "assets/hero.jpg" and remove class "is-temp". -->
-    <img class="hero__media is-temp" src="assets/hero-temp.jpg" alt="" fetchpriority="high">
+    <img class="hero__media" src="assets/hero-background.png" alt="" fetchpriority="high">
 
     <nav class="nav wrap" aria-label="Main">
       <a class="brand" href="#top" aria-label="Lean Her Way, back to top">
@@ -347,9 +327,7 @@
         <a class="project" href="https://leanoutset.com/" target="_blank" rel="noopener" aria-label="A project of Lean Outset">
           <span class="project__label">A Project of :</span>
           <span class="project__frame">
-            <i class="project__line project__line--l" aria-hidden="true"></i>
-            <i class="project__line project__line--r" aria-hidden="true"></i>
-            <img src="assets/logo-lean-outset.png" alt="Lean Outset">
+            <img src="assets/logo-lean-outset-hero.png" alt="Lean Outset">
           </span>
         </a>
       </div>
