@@ -63,11 +63,6 @@
     }
     /* Temporary image is only the right-hand portion of the photo.
        Once the full photo is exported from Figma, remove the "is-temp" class in the HTML. */
-    .hero__media.is-temp {
-      left: auto; width: 62%; object-position: left center;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
-              mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
-    }
     .hero::after {
       content: ""; position: absolute; inset: 0; z-index: -1;
       background:
@@ -281,7 +276,7 @@
 
     /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
-      .hero__media.is-temp { width: 100%; object-position: 70% center; -webkit-mask-image: none; mask-image: none; }
+      .hero__media { object-position: 72% center; }
     }
     @media (max-width: 600px) {
       .br-wide { display: none; }
@@ -314,9 +309,7 @@
 <body>
 
   <header class="hero">
-    <!-- TEMPORARY: replace with the full hero photo exported from Figma (save as assets/hero.jpg),
-         then change src to "assets/hero.jpg" and remove class "is-temp". -->
-    <img class="hero__media is-temp" src="assets/hero-temp.jpg" alt="" fetchpriority="high">
+    <img class="hero__media" src="assets/hero.jpg" alt="" fetchpriority="high">
 
     <nav class="nav wrap" aria-label="Main">
       <a class="brand" href="#top" aria-label="Lean Her Way, back to top">
@@ -349,7 +342,7 @@
           <span class="project__frame">
             <i class="project__line project__line--l" aria-hidden="true"></i>
             <i class="project__line project__line--r" aria-hidden="true"></i>
-            <img src="assets/logo-lean-outset.png" alt="Lean Outset">
+            <img src="assets/logo-lean-outset-white.svg" alt="Lean Outset">
           </span>
         </a>
       </div>
