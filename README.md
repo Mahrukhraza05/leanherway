@@ -13,4 +13,4 @@ In the repository, open Settings, then Pages. Under "Build and deployment", choo
 ## Before launch
 
 1. Replace `assets/hero-temp.jpg` with the full hero photo exported from Figma, saved as `assets/hero.jpg`, then update the image path in `index.html` and remove the `is-temp` class.
-2. Activate the contact form: after the site is live, submit one test message through the form. FormSubmit will send an activation email to contact@leanherway.com. Click the link in that email once, and all future messages will arrive in that inbox.
+2. Activate the contact form: after the site is live, submit one test message through the form. FormSubmit will send an activation email to contact@leanoutset.com. Click the link in that email once, and all future messages will arrive in that inbox.
