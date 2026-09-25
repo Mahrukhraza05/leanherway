@@ -217,6 +217,7 @@
     .form-status { margin: 14px 0 0; font-size: 14px; text-align: center; color: var(--muted); }
     .form-status.ok { color: var(--teal); }
     .form-status.err { color: #f08a8a; }
+    .form-status a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
     .socials {
       max-width: 760px; margin: 24px auto 0; padding-top: 24px;
@@ -458,12 +459,19 @@
           })
         });
         const result = await res.json().catch(() => ({}));
-        if (!res.ok || String(result.success) !== 'true') throw new Error(result.message || 'Request failed');
+        if (!res.ok || String(result.success) !== 'true') {
+          throw new Error(result.message || 'Request failed');
+        }
         form.reset();
         setStatus('Thank you, ' + name.split(' ')[0] + '. Your message has been sent and we will be in touch soon.', 'ok');
       } catch (err) {
-        setStatus('We could not send your message just now, so your email app will open with it ready to send.', 'err');
-        setTimeout(() => openEmailApp(name, email, message), 1200);
+        const detail = err instanceof Error ? err.message : '';
+        if (detail.toLowerCase().includes('activation')) {
+          statusEl.innerHTML = 'The form is awaiting activation. Please check <strong>' + CONTACT_EMAIL + '</strong> for the activation email, or <a href="mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Lean Her Way enquiry from ' + name) + '&body=' + encodeURIComponent(message + '\n\n' + name + '\n' + email) + '">send your message by email</a>.';
+        } else {
+          statusEl.innerHTML = 'We could not send your message just now. Please <a href="mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Lean Her Way enquiry from ' + name) + '&body=' + encodeURIComponent(message + '\n\n' + name + '\n' + email) + '">send your message by email</a>.';
+        }
+        statusEl.className = 'form-status err';
       } finally {
         button.disabled = false;
       }
