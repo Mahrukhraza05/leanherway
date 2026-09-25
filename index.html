@@ -117,22 +117,9 @@
     .project__frame {
       position: relative; display: block;
       margin-right: 8px;
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.18);
-      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-      transition: background-color .25s ease;
+      padding: 0;
     }
-    .project:hover .project__frame { background: rgba(255, 255, 255, 0.24); }
-    .project__frame img { height: 43px; width: auto; display: block; }
-    .project__line { position: absolute; width: 2px; background: #008081; }
-    .project__line::after {
-      content: ""; position: absolute; left: 50%; width: 15px; height: 15px;
-      margin-left: -7.5px; border-radius: 50%; background: #008081;
-    }
-    .project__line--l { left: -2px; top: -27px; bottom: 0; }
-    .project__line--l::after { top: 0; }
-    .project__line--r { right: -2px; top: 0; bottom: -25px; }
-    .project__line--r::after { bottom: 0; }
+    .project__frame img { width: min(399px, 42vw); height: auto; display: block; }
     .hero__foot p {
       margin: 0 0 18px;
       font-size: 18px; line-height: 1.4; font-weight: 400;
@@ -294,8 +281,8 @@
       .logo-hbl { height: 76px; }
       .project { align-items: flex-start; margin-bottom: 0; }
       .project__label { margin-bottom: 30px; }
-      .project__frame { margin-left: 8px; margin-right: 0; padding: 7px 14px; }
-      .project__frame img { height: 32px; }
+      .project__frame { margin-left: 0; margin-right: 0; }
+      .project__frame img { width: min(330px, 82vw); }
       .brand img { height: 20px; }
       .brand--sm img { height: 18px; }
       .footer .wrap { justify-content: center; text-align: center; }
@@ -309,7 +296,7 @@
 <body>
 
   <header class="hero">
-    <img class="hero__media" src="assets/hero.jpg" alt="" fetchpriority="high">
+    <img class="hero__media" src="assets/hero-background.png" alt="" fetchpriority="high">
 
     <nav class="nav wrap" aria-label="Main">
       <a class="brand" href="#top" aria-label="Lean Her Way, back to top">
@@ -340,9 +327,7 @@
         <a class="project" href="https://leanoutset.com/" target="_blank" rel="noopener" aria-label="A project of Lean Outset">
           <span class="project__label">A Project of :</span>
           <span class="project__frame">
-            <i class="project__line project__line--l" aria-hidden="true"></i>
-            <i class="project__line project__line--r" aria-hidden="true"></i>
-            <img src="assets/logo-lean-outset-white.svg" alt="Lean Outset">
+            <img src="assets/logo-lean-outset-hero.png" alt="Lean Outset">
           </span>
         </a>
       </div>
